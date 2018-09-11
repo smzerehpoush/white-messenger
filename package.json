@@ -1,0 +1,22 @@
+{
+  "name": "node_demo",
+  "version": "1.0.0",
+  "description": "test node package",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "nodemon app.js"
+  },
+  "author": "Seyyed Mahdiyar Zerehpoush",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "joi": "^13.6.0",
+    "mongoose": "^5.2.13"
+  },
+  "devDependencies": {
+    "jest": "^23.5.0"
+  }
+}
