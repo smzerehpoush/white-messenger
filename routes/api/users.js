@@ -8,8 +8,7 @@ router.post('/', async (req, res) => {
     res.send(user)
 })
 
-router.post('/register', async (req, res) => {
-    console.log(req.body)
+router.post('/auth', async (req, res) => {
     let phoneNumber = req.body.phoneNumber
     let user = await User.checkUser(phoneNumber) 
     if (!user) {
