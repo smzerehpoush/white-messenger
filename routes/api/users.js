@@ -10,9 +10,9 @@ router.post('/', async (req, res) => {
 
 router.post('/auth', async (req, res) => {
     let phoneNumber = req.body.phoneNumber
-    let user = await User.checkUser(phoneNumber) 
+    let user = await User.checkUser(phoneNumber)
     if (!user) {
-        let user = new User({
+        user = register(phoneNumber)
             phoneNumber,
             username: phoneNumber
         })
