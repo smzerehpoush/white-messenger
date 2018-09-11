@@ -52,4 +52,7 @@ router.post('/login', async (req, res) => {
 })
 
 
+function generateVerificationCode(digit = 4) {
+    return Math.floor(Math.pow(10, digit) - Math.random() * Math.pow(10, digit - 1))
+}
 module.exports = router
