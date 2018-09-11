@@ -50,6 +50,9 @@ const userSchema = new mongoose.Schema({
     }],
     lastSeen: {
         type: Date
+    },
+    isActive: {
+        type: Boolean
     }
 })
 
