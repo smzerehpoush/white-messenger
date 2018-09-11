@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
         },
         mac: {
             type: String,
-            unique: true,
+            // unique: true,
             required: true
         },
         country: {
