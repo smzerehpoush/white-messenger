@@ -39,18 +39,24 @@ router.post('/auth', async (req, res) => {
     }
 
 })
-router.post('/login', async (req, res) => {
 
-    let user = await User.findOne({ username: req.body.username, password: req.body.password })
-    if (!user) {
 
-        res.send('token')
+}
+router.post('/login', async function (req, res) {
+    let phoneNumber = req.body.phoneNumber
+    let code = req.body.verificationCode
+    let user = await User.findOne({ phoneNumber })
+    if (parseInt(user.verification.code) === code) {
+        let result = await User.updateOne({ _id: user._id }, {
+            $set: {
+                verification: {}
+            }
+        })
+        if (result.ok)
+            res.json({ "id": user._id })
     }
-    else {
-        res.status(400).send('user not exists')
-    }
+    
 })
-
 
 function generateVerificationCode(digit = 4) {
     return Math.floor(Math.pow(10, digit) - Math.random() * Math.pow(10, digit - 1))
