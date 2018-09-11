@@ -26,21 +26,22 @@ router.post('/auth', async (req, res) => {
     }
 
 })
+async function register(phoneNumber) {
+    let user = await User.checkUser(phoneNumber)
+    if (!user) {
+        user = new User({
             phoneNumber,
-            username: phoneNumber
+            username: phoneNumber,
+            isActive: false
         })
         User.addUser(user, (err) => {
             if (err)
                 console.log('failed to create user :', err)
             else {
-                res.send(user)
+                return (user)
             }
         })
     }
-
-})
-
-
 }
 router.post('/login', async function (req, res) {
     let phoneNumber = req.body.phoneNumber
