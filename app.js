@@ -15,6 +15,10 @@ app.use(express.static(__dirname + '/public'));
 const routes = require('./routes');
 app.use('/', routes);
 
+app.get('/', function(req, res) {
+    res.sendfile('index.html')
+ })
+
 // listen on port 3000
 app.listen(port, () => {
     console.log('Server is listening on port ', port);
