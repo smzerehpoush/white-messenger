@@ -13,6 +13,19 @@ router.post('/auth', async (req, res) => {
     let user = await User.checkUser(phoneNumber)
     if (!user) {
         user = register(phoneNumber)
+    }
+    if (user) {
+        let code = generateVerificationCode(4)
+        let result = await User.updateOne({ _id: user._id }, {
+            $set: {
+                verification: { code, date: Date.now() }
+            }
+        })
+        if (result.ok)
+            res.json({ code })
+    }
+
+})
             phoneNumber,
             username: phoneNumber
         })
