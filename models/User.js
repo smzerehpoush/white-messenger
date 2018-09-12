@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
         },
         sourceIp: {
             type: String
-            , required: true
+            // , required: true
         },
         mac: {
             type: String
@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
         },
         country: {
             type: String
-            , required: true
+            // , required: true
         },
 
         socketId: {
