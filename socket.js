@@ -12,9 +12,9 @@ io.on('connection', function(socket){
         io.sockets.emit('broadcast',{description:'user count '+userCount})
         socket.emit('testerEvent', { description: 'A custom event named testerEvent!'});
     })
-    socket.on('test2',function(){
-        io.sockets.emit('broadcast',{description:'test broadcast message'})
-        // socket.send('test222222222')
+    socket.on('test2',function(data){
+        io.sockets.emit('test2', data)
+        // socket.send('test2')
     })
     
     socket.on('disconnect',function(){
