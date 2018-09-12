@@ -4,13 +4,15 @@ const http = require('http').Server(app)
 const io = require('socket.io')(http)
 const User = require('./models/User')
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/meineme',{useNewUrlParser:true})
-.then( ()=> console.log('connected to db...'))
-.catch( (err)=> console.log('failed to connect to db : ',err))
+mongoose.connect('mongodb://localhost:27017/meineme', {
+        useNewUrlParser: true
+    })
+    .then(() => console.log('connected to db...'))
+    .catch((err) => console.log('failed to connect to db : ', err))
 
- 
+
 io.use(async function (socket, next) {
-    
+
     let userId = socket.request._query['user_id']
     //check objectId
     let isValid = mongoose.Types.ObjectId.isValid(userId)
@@ -25,9 +27,9 @@ io.use(async function (socket, next) {
     let user = await User.findOne({
         _id: userId
     })
-    user.clients.forEach(async function(client) {
-        if(client.mac === mac)
-            client.socketId= socketId
+    user.clients.forEach(async function (client) {
+        if (client.mac === mac)
+            client.socketId = socketId
     })
     let result = await user.save()
     console.log(result)
