@@ -11,14 +11,6 @@ const messageSchema = new mongoose.Schema({
         type: String
         , enum: ['mp3', 'mp4', 'file', 'voice']
     }
-    , sender: {
-        type: mongoose.Schema.Types.ObjectId
-        , ref: 'User'
-    }
-    , reciever: {
-        type: mongoose.Schema.Types.ObjectId
-        , ref: 'User'
-    }
 })
 
 const Message = mongoose.model('Message', messageSchema)
