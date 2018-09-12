@@ -14,3 +14,6 @@ const channelMessagesSchema = new mongoose.Schema({
         , ref: 'Message'
     }
 })
+
+const ChannelMessages = mongoose.model('ChannelMessages',channelMessagesSchema)
+module.exports = ChannelMessages
