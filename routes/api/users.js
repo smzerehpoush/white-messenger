@@ -16,13 +16,20 @@ router.post('/auth', async (req, res) => {
     }
     if (user) {
         let code = generateVerificationCode(4)
-        let result = await User.updateOne({ _id: user._id }, {
+        let result = await User.updateOne({
+            _id: user._id
+        }, {
             $set: {
-                verification: { code, date: Date.now() }
+                verification: {
+                    code,
+                    date: Date.now()
+                }
             }
         })
         if (result.ok)
-            res.json({ code })
+            res.json({
+                code
+            })
     }
 
 })
@@ -46,17 +53,23 @@ async function register(phoneNumber) {
 router.post('/login', async function (req, res) {
     let phoneNumber = req.body.phoneNumber
     let code = req.body.verificationCode
-    let user = await User.findOne({ phoneNumber })
+    let user = await User.findOne({
+        phoneNumber
+    })
     if (parseInt(user.verification.code) === code) {
-        let result = await User.updateOne({ _id: user._id }, {
+        let result = await User.updateOne({
+            _id: user._id
+        }, {
             $set: {
                 verification: {}
             }
         })
         if (result.ok)
-            res.json({ "id": user._id })
+            res.json({
+                "id": user._id
+            })
     }
-    
+
 })
 
 function generateVerificationCode(digit = 4) {
