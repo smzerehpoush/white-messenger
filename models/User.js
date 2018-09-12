@@ -3,59 +3,60 @@ const bcrypt = require('bcrypt')
 const salt = process.env.SALT || 10
 const userSchema = new mongoose.Schema({
     username: {
-        type: String,
-        unique: true,
-        lowercase: true,
-        trim: true
-    },
-    firstName: String,
-    lastName: String,
-    profilePhoto: [{
         type: String
-    }],
-    phoneNumber: {
-        type: String,
-        unique: true,
-        required: true
-    },
-    clients: [{
+        , unique: true
+        , lowercase: true
+        , trim: true
+    }
+    , firstName: String
+    , lastName: String
+    , profilePhoto: [{
+        type: String
+    }]
+    , phoneNumber: {
+        type: String
+        , unique: true
+        , required: true
+    }
+    , clients: [{
         os: {
-            type: String,
-            required: true
+            type: String
+            , required: true
         },
         sourceIp: {
-            type: String,
-            required: true
+            type: String
+            , required: true
         },
         mac: {
-            type: String,
+            type: String
             // unique: true,
-            required: true
+            , required: true
         },
         country: {
-            type: String,
-            required: true
+            type: String
+            , required: true
         },
 
         socketId: {
-            type: String,
-            required: true,
-            default: ''
+            type: String
+            , required: true
+            , default: ''
 
         }
-    }],
-    blockedUsers: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
-    lastSeen: {
+    }]
+    , blockedUsers: [{
+        type: mongoose.Schema.Types.ObjectId
+        , ref: 'User'
+    }]
+    , lastSeen: {
         type: Date
-    },
-    isActive: {
+    }
+    , isActive: {
         type: Boolean
-    },verification:{
-        code:String,
-        date:Date
+    }
+    , verification: {
+        code: String
+        , date: Date
     }
 })
 
@@ -70,7 +71,7 @@ async function hashData(data, salt) {
     return hashedPassword
 }
 
-let User = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema)
 module.exports = User
 module.exports.addUser = async (user, callback) => {
     User.create(user, callback)
