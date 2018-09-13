@@ -11,7 +11,7 @@ mongoose.connect('mongodb://localhost:27017/meineme', {
     .then(() => console.log('connected to db...'))
     .catch((err) => console.log('failed to connect to db : ', err))
 
-
+function getDataFromInputSocket(socket){
 io.use(async function (socket, next) {
 
     let userId = socket.request._query['user_id']
@@ -28,6 +28,8 @@ io.use(async function (socket, next) {
     const clientId = socket.request._query['client_id']
     if (clientId)
         isValid = isValid & mongoose.Types.ObjectId.isValid(clientId)
+    return {isValid,userId,clientId,socketId}
+}
     if (isValid) {
         let user = await User.findOne({
             _id: userId
