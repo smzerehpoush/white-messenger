@@ -4,6 +4,7 @@ const http = require('http').Server(app)
 const io = require('socket.io')(http)
 const User = require('./models/User')
 const mongoose = require('mongoose')
+
 mongoose.connect('mongodb://localhost:27017/meineme', {
         useNewUrlParser: true
     })
@@ -15,24 +16,32 @@ io.use(async function (socket, next) {
 
     let userId = socket.request._query['user_id']
     //check objectId
-    let isValid = mongoose.Types.ObjectId.isValid(userId)
+    let isValid = true
+    if (userId)
+        isValid = mongoose.Types.ObjectId.isValid(userId)
+    else
+        isValid = false
     //check socketId
     const socketId = socket.request._query['socket_id']
-    isValid = isValid & socketId
+    isValid = isValid & (socketId !== undefined)
     //check mac addr
-    const mac = socket.request._query['mac']
-    isValid = isValid & mac
+    const clientId = socket.request._query['client_id']
+    if (clientId)
+        isValid = isValid & mongoose.Types.ObjectId.isValid(clientId)
     if (isValid) {
         let user = await User.findOne({
             _id: userId
         })
         user.clients.forEach(async function (client) {
-            if (client.mac === mac)
+            if (client._id.toString() === clientId) {
                 client.socketId = socketId
+            }
         })
         let result = await user.save()
         console.log(result)
 
+        next()
+    } else {
         next()
     }
 
