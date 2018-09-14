@@ -60,7 +60,6 @@ const chat = io
     // .of('/chat')
     .on('connection', async function (socket) {
         console.log(socket.id, 'connected')
-        socket.to(socket.id).emit('receivePrivateMessage', 'salamm!')
         socket.on('sendPrivateMessage', async function (data) {
             let receiverId = data.receiverId
             if (mongoose.Types.ObjectId.isValid(receiverId)) {
@@ -96,7 +95,8 @@ const chat = io
                     })
                 for (let i = 0; i < clients.length; i++) {
                     console.log('client ', i + 1, ' : ', clients[i].socketId)
-                    socket.to(clients[i].socketId).emit('receivePrivateMessage', data.data)
+                    console.log(data.text)
+                    socket.to(clients[i].socketId).emit('receivePrivateMessage', data.text)
                 }
             }
         })
