@@ -64,6 +64,11 @@ const chat = io
         socket.on('sendPrivateMessage', async function (data) {
             let receiverId = data.receiverId
             if (mongoose.Types.ObjectId.isValid(receiverId)) {
+                message = await new Message({
+                        text: data.text
+                    })
+                    .save()
+
                 let {
                     clients
                 } = await User.findOne({
