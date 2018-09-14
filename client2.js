@@ -11,7 +11,7 @@ rl.on('line', async function (line) {
 
     chat.emit('sendPrivateMessage', {
         receiverId: '5b99f43150fd6337a440817d',
-        data: await line
+        text: await line
     })
 })
 
