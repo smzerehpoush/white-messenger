@@ -69,6 +69,20 @@ const chat = io
                     })
                     .save()
 
+                let senderId = await User.findOne({
+                    'clients.socketId': socket.id
+                }, {
+                    _id: 1
+                })
+                privateChat = await new PrivateChat({
+                        message: message._id,
+                        sender: senderId,
+                        receiver: receiverId
+                    })
+                    .save()
+                // console.log('senderId', senderId)
+                // console.log('receiverId', receiverId)
+
                 let {
                     clients
                 } = await User.findOne({
