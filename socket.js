@@ -13,23 +13,18 @@ mongoose.connect('mongodb://localhost:27017/meineme', {
 
 function getDataFromInputSocket(socket){
     let userId = socket.request._query['user_id']
-    //check objectId
-    let isValid = true
-    if (userId)
-        isValid = mongoose.Types.ObjectId.isValid(userId)
-    else
-        isValid = false
-    //check socketId
-    const socketId = socket.request._query['socket_id']
-    isValid = isValid & (socketId !== undefined)
-    //check mac addr
+    //check userId
+    let isValid
+    isValid = userId ? mongoose.Types.ObjectId.isValid(userId) : false
+    //check clinetId
     const clientId = socket.request._query['client_id']
     if (clientId)
         isValid = isValid & mongoose.Types.ObjectId.isValid(clientId)
-    return {isValid,userId,clientId,socketId}
+    return {isValid,userId,clientId,socketId:socket.id}
 }
 io.use(async function (socket, next) {
     const {isValid,userId,clientId,socketId} = getDataFromInputSocket(socket)
+    console.log(isValid)
     if (isValid) {
         let user = await User.findOne({
             _id: userId
@@ -40,7 +35,6 @@ io.use(async function (socket, next) {
             }
         })
         let result = await user.save()
-        console.log(result)
 
         next()
     } else {
@@ -52,7 +46,10 @@ io.use(async function (socket, next) {
 
 io.on('connection', function (socket) {
     console.log(socket.id, 'connected')
-
+    socket.on('privateChat',function(data){
+        console.log(data)
+        socket.emit('privateChat','send me this data :'+data)
+    })
     socket.on('disconnect', function () {
         console.log('-:  user', socket.id, ' disconnected ...')
     })
