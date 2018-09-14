@@ -11,7 +11,7 @@ mongoose.connect('mongodb://localhost:27017/meineme', {
     .then(() => console.log('connected to db...'))
     .catch((err) => console.log('failed to connect to db : ', err))
 
-function getDataFromInputSocket(socket){
+function getDataFromInputSocket(socket) {
     let userId = socket.request._query['user_id']
     //check userId
     let isValid
@@ -20,10 +20,20 @@ function getDataFromInputSocket(socket){
     const clientId = socket.request._query['client_id']
     if (clientId)
         isValid = isValid & mongoose.Types.ObjectId.isValid(clientId)
-    return {isValid,userId,clientId,socketId:socket.id}
+    return {
+        isValid,
+        userId,
+        clientId,
+        socketId: socket.id
+    }
 }
 io.use(async function (socket, next) {
-    const {isValid,userId,clientId,socketId} = getDataFromInputSocket(socket)
+    const {
+        isValid,
+        userId,
+        clientId,
+        socketId
+    } = getDataFromInputSocket(socket)
     console.log(isValid)
     if (isValid) {
         let user = await User.findOne({
@@ -42,18 +52,35 @@ io.use(async function (socket, next) {
     }
 
 })
-
-
-io.on('connection', function (socket) {
-    console.log(socket.id, 'connected')
-    socket.on('privateChat',function(data){
-        console.log(data)
-        socket.emit('privateChat','send me this data :'+data)
+const chat = io
+    // .of('/chat')
+    .on('connection', async function (socket) {
+        console.log(socket.id, 'connected')
+        socket.to(socket.id).emit('receivePrivateMessage', 'salamm!')
+        socket.on('sendPrivateMessage', async function (data) {
+            let receiverId = data.receiverId
+            if (mongoose.Types.ObjectId.isValid(receiverId)) {
+                let {
+                    clients
+                } = await User.findOne({
+                        _id: receiverId
+                    }, {
+                        _id: 0,
+                        clients: 1
+                    })
+                    .select({
+                        'clients.socketId': true
+                    })
+                for (let i = 0; i < clients.length; i++) {
+                    console.log('client ', i + 1, ' : ', clients[i].socketId)
+                    socket.to(clients[i].socketId).emit('receivePrivateMessage', data.data)
+                }
+            }
+        })
+        socket.on('disconnect', function () {
+            console.log('-:  user', socket.id, ' disconnected ...')
+        })
     })
-    socket.on('disconnect', function () {
-        console.log('-:  user', socket.id, ' disconnected ...')
-    })
-})
 
 const port = 3001
 http.listen(port, () => {
