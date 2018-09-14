@@ -37,7 +37,7 @@ io.use(async function (socket, next) {
         clientId,
         socketId
     } = getDataFromInputSocket(socket)
-    console.log(isValid)
+    // console.log(isValid)
     if (isValid) {
         let user = await User.findOne({
             _id: userId
@@ -48,6 +48,7 @@ io.use(async function (socket, next) {
             }
         })
         let result = await user.save()
+        console.log(result)
 
         next()
     } else {
