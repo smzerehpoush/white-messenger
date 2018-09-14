@@ -9,7 +9,7 @@ const privateChatSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId
         , ref: 'User'
     }
-    , reciever: {
+    , receiver: {
         type: mongoose.Schema.Types.ObjectId
         , ref: 'User'
     }
