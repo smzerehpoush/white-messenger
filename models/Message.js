@@ -3,13 +3,13 @@ const mongoose = require('mongoose')
 const messageSchema = new mongoose.Schema({
     text: {
         type: String,
-    }
-    , file: {
+    },
+    file: {
         type: String
-    }
-    , fileType: {
-        type: String
-        , enum: ['mp3', 'mp4', 'file', 'voice']
+    },
+    fileType: {
+        type: String,
+        enum: ['mp3', 'mp4', 'file', 'voice']
     }
 })
 
