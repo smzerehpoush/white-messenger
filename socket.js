@@ -2,8 +2,11 @@ const express = require('express');
 const app = express()
 const http = require('http').Server(app)
 const io = require('socket.io')(http)
-const User = require('./models/User')
 const mongoose = require('mongoose')
+
+const User = require('./models/User')
+const Message = require('./models/Message')
+const PrivateChat = require('./models/PrivateChat')
 
 mongoose.connect('mongodb://localhost:27017/meineme', {
         useNewUrlParser: true
