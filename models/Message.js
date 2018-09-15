@@ -3,21 +3,17 @@ const mongoose = require('mongoose')
 const messageSchema = new mongoose.Schema({
     text: {
         type: String,
-    }
-    , file: {
+    },
+    file: {
         type: String
-    }
-    , fileType: {
-        type: String
-        , enum: ['mp3', 'mp4', 'file', 'voice']
-    }
-    , sender: {
-        type: mongoose.Schema.Types.ObjectId
-        , ref: 'User'
-    }
-    , reciever: {
-        type: mongoose.Schema.Types.ObjectId
-        , ref: 'User'
+    },
+    fileType: {
+        type: String,
+        enum: ['mp3', 'mp4', 'file', 'voice']
+    },
+    seen: {
+        type: Boolean,
+        default: false
     }
 })
 
