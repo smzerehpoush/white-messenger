@@ -11,33 +11,7 @@ const PrivateChat = require('./models/PrivateChat')
 mongoose.connect('mongodb://localhost:27017/white_messenger', {
         useNewUrlParser: true
     })
-    .then(async () => {
-        console.log('connected to db...')
-        user = await new User({
-            firstName: 'mahdiyar',
-            lastName: 'Zerehpoush',
-            username: 'mahdiyar',
-            phoneNumber: '09124398514',
-            clinets: [{
-                os: 'win',
-    
-            }],
-            isActive: true
-    
-        }).save()
-        user2 = await new User({
-            firstName: 'mohammad',
-            lastName: 'Zerehpoush',
-            username: 'mohammad',
-            phoneNumber: '09124398515',
-            clinets: [{
-                os: 'win',
-    
-            }],
-            isActive: true
-    
-        }).save()
-    })
+    .then(async () => console.log('connected to db...'))
     .catch((err) => console.log('failed to connect to db : ', err))
 
 function getDataFromInputSocket(socket) {
