@@ -83,6 +83,8 @@ const chat = io
                 // console.log('receiverId', receiverId)
 
                 sendDataToUser(socket, receiverId, 'receivePrivateMessage', data.text)
+            }
+        })
         socket.on('sendSeen', async function (data) {
             const messageId = mongoose.Schema.Types.ObjectId.isValid(data.messageId) ? data.messageId : null
             const receiverId = mongoose.Schema.Types.ObjectId.isValid(data.receiverId) ? data.receiverId : null
@@ -108,6 +110,7 @@ const chat = io
         socket.on('disconnect', function () {
             console.log('-:  user', socket.id, ' disconnected ...')
         })
+    })
 async function sendDataToUser(socket, receiverId, eventName, data) {
     let {
         clients
