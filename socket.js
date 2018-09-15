@@ -8,10 +8,10 @@ const User = require('./models/User')
 const Message = require('./models/Message')
 const PrivateChat = require('./models/PrivateChat')
 
-mongoose.connect('mongodb://localhost:27017/white_messenger', {
+mongoose.connect('mongodb://localhost:27017/meineme', {
         useNewUrlParser: true
     })
-    .then(async () => console.log('connected to db...'))
+    .then(() => console.log('connected to db...'))
     .catch((err) => console.log('failed to connect to db : ', err))
 
 function getDataFromInputSocket(socket) {
@@ -48,7 +48,7 @@ io.use(async function (socket, next) {
             }
         })
         let result = await user.save()
-        // console.log(result)
+        console.log(result)
 
         next()
     } else {
@@ -82,53 +82,29 @@ const chat = io
                 // console.log('senderId', senderId)
                 // console.log('receiverId', receiverId)
 
-                sendDataToUser(socket, receiverId, 'receivePrivateMessage', data.text)
-            }
-        })
-        socket.on('sendSeen', async function (data) {
-            const messageId = mongoose.Schema.Types.ObjectId.isValid(data.messageId) ? data.messageId : null
-            const receiverId = mongoose.Schema.Types.ObjectId.isValid(data.receiverId) ? data.receiverId : null
-
-            if (messageId & receiverId) {
-                sendDataToUser(socket,receiverId,'receiveSeen',{messageId})
-                await Message.updateOne({
-                    _id: messageId
-                }, {
-                    $set: {
-                        seen: true
-                    }
-                })
-            }
-        })
-        socket.on('sendIsTyping', async function (data) {
-            const userId = mongoose.Schema.Types.ObjectId.isValid(data.userId) ? data.userId : null
-            const receiverId = mongoose.Schema.Types.ObjectId.isValid(data.receiverId) ? data.receiverId : null
-            if (userId & receiverId) {
-                sendDataToUser(socket,receiverId,'receiveIsTyping',{userId})
+                let {
+                    clients
+                } = await User.findOne({
+                        _id: receiverId
+                    }, {
+                        _id: 0,
+                        clients: 1
+                    })
+                    .select({
+                        'clients.socketId': true
+                    })
+                for (let i = 0; i < clients.length; i++) {
+                    console.log('client ', i + 1, ' : ', clients[i].socketId)
+                    console.log(data.text)
+                    socket.to(clients[i].socketId).emit('receivePrivateMessage', data.text)
+                }
             }
         })
         socket.on('disconnect', function () {
             console.log('-:  user', socket.id, ' disconnected ...')
         })
     })
-async function sendDataToUser(socket, receiverId, eventName, data) {
-    let {
-        clients
-    } = await User.findOne({
-            _id: receiverId
-        }, {
-            _id: 0,
-            clients: 1
-        })
-        .select({
-            'clients.socketId': true
-        })
-    for (let i = 0; i < clients.length; i++) {
-        // console.log('client ', i + 1, ' : ', clients[i].socketId)
-        // console.log(data.text)
-        socket.to(clients[i].socketId).emit(eventName, data)
-    }
-}
+
 const port = 3001
 http.listen(port, () => {
     console.log('Server is listening on port ', port);

@@ -10,10 +10,6 @@ const messageSchema = new mongoose.Schema({
     fileType: {
         type: String,
         enum: ['mp3', 'mp4', 'file', 'voice']
-    },
-    seen: {
-        type: Boolean,
-        default: false
     }
 })
 
