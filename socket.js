@@ -82,29 +82,24 @@ const chat = io
                 // console.log('senderId', senderId)
                 // console.log('receiverId', receiverId)
 
-                let {
-                    clients
-                } = await User.findOne({
-                        _id: receiverId
-                    }, {
-                        _id: 0,
-                        clients: 1
-                    })
-                    .select({
-                        'clients.socketId': true
-                    })
-                for (let i = 0; i < clients.length; i++) {
-                    console.log('client ', i + 1, ' : ', clients[i].socketId)
-                    console.log(data.text)
-                    socket.to(clients[i].socketId).emit('receivePrivateMessage', data.text)
-                }
-            }
+async function sendDataToUser(socket, receiverId, eventName, data) {
+    let {
+        clients
+    } = await User.findOne({
+            _id: receiverId
+        }, {
+            _id: 0,
+            clients: 1
         })
-        socket.on('disconnect', function () {
-            console.log('-:  user', socket.id, ' disconnected ...')
+        .select({
+            'clients.socketId': true
         })
-    })
-
+    for (let i = 0; i < clients.length; i++) {
+        // console.log('client ', i + 1, ' : ', clients[i].socketId)
+        // console.log(data.text)
+        socket.to(clients[i].socketId).emit(eventName, data)
+    }
+}
 const port = 3001
 http.listen(port, () => {
     console.log('Server is listening on port ', port);
