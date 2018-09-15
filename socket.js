@@ -90,6 +90,9 @@ const chat = io
                 sendDataToUser(socket,receiverId,'receiveIsTyping',{userId})
             }
         })
+        socket.on('disconnect', function () {
+            console.log('-:  user', socket.id, ' disconnected ...')
+        })
 async function sendDataToUser(socket, receiverId, eventName, data) {
     let {
         clients
