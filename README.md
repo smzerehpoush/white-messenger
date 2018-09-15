@@ -4,7 +4,7 @@ Instant messaging server. Backend in JS [Node.js](https://nodejs.org/en). Wire t
 
 ## How to run
 
-1. type in terminal :`
+1. type in terminal :
 
 ```bash
 npm install
