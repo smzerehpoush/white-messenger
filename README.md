@@ -1,9 +1,6 @@
-# White Messenger
+# White Messenger : Instant Messaging Server
 
-simple chat messenger using
-    mongodb for DB,
-    nodejs for backend,
-    (express, socket.io)
+Instant messaging server. Backend in JS [Node.js](https://nodejs.org/en). Wire transport is JSON over websocket. Persistent storage [MongoDB](https://www.mongodb.com). Other databases can be supported by writing custom adapters.
 
 ## How to run
 
