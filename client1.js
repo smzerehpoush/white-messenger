@@ -1,5 +1,8 @@
 // let chat = require('socket.io-client')('http://localhost:3001/chat?user_id=5b99f43150fd6337a440817d&client_id=5b99f43150fd6337a440817e');
-let chat = require('socket.io-client')('http://localhost:3001/?user_id=5b99f43150fd6337a440817d&client_id=5b99f43150fd6337a440817e');
+const user_id_1 = ''
+const user_id_2 = ''
+const client_id_1 = ''
+let chat = require('socket.io-client')('http://localhost:3001/?user_id=' + user_id_1 + '&client_id=' + client_id_1);
 const readline = require('readline');
 const rl = readline.createInterface({
     input: process.stdin,
@@ -10,7 +13,7 @@ const rl = readline.createInterface({
 rl.on('line', async function (line) {
 
     chat.emit('sendPrivateMessage', {
-        receiverId: '5b9b784739a1366cb5b8ab4d',
+        receiverId: user_id_2,
         text: await line
     })
 })
