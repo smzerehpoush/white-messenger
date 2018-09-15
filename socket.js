@@ -82,6 +82,7 @@ const chat = io
                 // console.log('senderId', senderId)
                 // console.log('receiverId', receiverId)
 
+                sendDataToUser(socket, receiverId, 'receivePrivateMessage', data.text)
 async function sendDataToUser(socket, receiverId, eventName, data) {
     let {
         clients
