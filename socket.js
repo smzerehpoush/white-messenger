@@ -8,7 +8,7 @@ const User = require('./models/User')
 const Message = require('./models/Message')
 const PrivateChat = require('./models/PrivateChat')
 
-mongoose.connect('mongodb://localhost:27017/meineme', {
+mongoose.connect('mongodb://localhost:27017/white_messenger', {
         useNewUrlParser: true
     })
     .then(() => console.log('connected to db...'))
