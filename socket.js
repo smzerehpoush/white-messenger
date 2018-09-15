@@ -48,7 +48,7 @@ io.use(async function (socket, next) {
             }
         })
         let result = await user.save()
-        console.log(result)
+        // console.log(result)
 
         next()
     } else {
