@@ -54,6 +54,10 @@ const userSchema = new mongoose.Schema({
     verification: {
         code: String,
         date: Date
+    },
+    isTyping: {
+        type: Boolean,
+        default: false
     }
 })
 
