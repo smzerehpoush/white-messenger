@@ -27,9 +27,8 @@ const userSchema = new mongoose.Schema({
         },
         mac: {
             type: String
-                // unique: true,
-                ,
-            required: true
+            // unique: true,
+            // ,required: true
         },
         country: {
             type: String
@@ -38,8 +37,7 @@ const userSchema = new mongoose.Schema({
 
         socketId: {
             type: String,
-            required: true,
-            default: ''
+            // required: true,
 
         }
     }],
@@ -56,6 +54,10 @@ const userSchema = new mongoose.Schema({
     verification: {
         code: String,
         date: Date
+    },
+    isTyping: {
+        type: Boolean,
+        default: false
     }
 })
 
