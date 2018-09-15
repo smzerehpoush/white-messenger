@@ -83,6 +83,13 @@ const chat = io
                 // console.log('receiverId', receiverId)
 
                 sendDataToUser(socket, receiverId, 'receivePrivateMessage', data.text)
+        socket.on('sendIsTyping', async function (data) {
+            const userId = mongoose.Schema.Types.ObjectId.isValid(data.userId) ? data.userId : null
+            const receiverId = mongoose.Schema.Types.ObjectId.isValid(data.receiverId) ? data.receiverId : null
+            if (userId & receiverId) {
+                sendDataToUser(socket,receiverId,'receiveIsTyping',{userId})
+            }
+        })
 async function sendDataToUser(socket, receiverId, eventName, data) {
     let {
         clients
