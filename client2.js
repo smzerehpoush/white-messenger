@@ -1,7 +1,7 @@
 // let chat = require('socket.io-client')('http://localhost:3001/chat?user_id=5b9b784739a1366cb5b8ab4d&client_id=5b99f43150fd6337a4408177');
-const user_id_1 = ''
-const user_id_2 = ''
-const client_id_1 = ''
+const user_id_1 = '5b9ca5f2fe0c7826f8e2a3db'
+const user_id_2 = '5b9ca5f1fe0c7826f8e2a3d9'
+const client_id_1 = '5b9ca5f2fe0c7826f8e2a3dc'
 let chat = require('socket.io-client')('http://localhost:3001/?user_id=' + user_id_1 + '&client_id=' + client_id_1);
 const readline = require('readline');
 const rl = readline.createInterface({
