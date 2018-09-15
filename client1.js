@@ -22,7 +22,7 @@ chat.on('connect', function () {
     console.log('connected...');
 
 });
-chat.on('receivePrivateMessage',async function (data) {
-    console.log('-: ',await data)
+chat.on('receivePrivateMessage', async function (data) {
+    console.log('-: ', await data)
 });
 chat.on('disconnect', function () {});
